@@ -13,6 +13,7 @@
 		3A4611402B9D1EC70091626E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A46113F2B9D1EC70091626E /* Preview Assets.xcassets */; };
 		3A4611472B9D1F070091626E /* SetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4611462B9D1F070091626E /* SetViewModel.swift */; };
 		3A46114B2B9D1FB80091626E /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A46114A2B9D1FB80091626E /* SetGame.swift */; };
+		3A46114D2B9D21ED0091626E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3A46114C2B9D21ED0091626E /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		3A46113F2B9D1EC70091626E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3A4611462B9D1F070091626E /* SetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetViewModel.swift; sourceTree = "<group>"; };
 		3A46114A2B9D1FB80091626E /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
+		3A46114C2B9D21ED0091626E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 			children = (
 				3A4611382B9D1EC60091626E /* SetApp.swift */,
 				3A46113A2B9D1EC60091626E /* SetView.swift */,
+				3A46114C2B9D21ED0091626E /* README.md */,
 				3A46114A2B9D1FB80091626E /* SetGame.swift */,
 				3A4611462B9D1F070091626E /* SetViewModel.swift */,
 				3A46113C2B9D1EC70091626E /* Assets.xcassets */,
@@ -131,6 +134,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A46114D2B9D21ED0091626E /* README.md in Resources */,
 				3A4611402B9D1EC70091626E /* Preview Assets.xcassets in Resources */,
 				3A46113D2B9D1EC70091626E /* Assets.xcassets in Resources */,
 			);
