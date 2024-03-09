@@ -41,6 +41,7 @@
 		3A46112C2B9D1EC60091626E = {
 			isa = PBXGroup;
 			children = (
+				3A46114C2B9D21ED0091626E /* README.md */,
 				3A4611372B9D1EC60091626E /* Set */,
 				3A4611362B9D1EC60091626E /* Products */,
 			);
@@ -59,7 +60,6 @@
 			children = (
 				3A4611382B9D1EC60091626E /* SetApp.swift */,
 				3A46113A2B9D1EC60091626E /* SetView.swift */,
-				3A46114C2B9D21ED0091626E /* README.md */,
 				3A46114A2B9D1FB80091626E /* SetGame.swift */,
 				3A4611462B9D1F070091626E /* SetViewModel.swift */,
 				3A46113C2B9D1EC70091626E /* Assets.xcassets */,
