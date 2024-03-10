@@ -49,6 +49,9 @@ class SetViewModel: ObservableObject {
         model.score
     }
     
+    var isGameOver: Bool {
+        model.gameOver
+    }
     // MARK: - Intents
     func newGame() {
         SetViewModel.cardContent.shuffle()

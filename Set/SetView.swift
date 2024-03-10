@@ -12,16 +12,20 @@ struct SetView: View {
     
     var body: some View {
         VStack{
-            Text("SET!").font(.system(size: 50)).monospaced()
-            Text("Score: \(game.score)").monospaced().bold()
-            cards.animation(.default, value: game.cards).padding()
-            HStack{
-                newGameButton.padding(.leading)
-                Spacer()
-                threeMoreButton
-                cheatButton.padding(.trailing)
+            VStack {
+                Text("SET!").font(.system(size: 50)).monospaced().foregroundStyle(.black)
+                Text("Score: \(game.score)").monospaced().bold().foregroundStyle(.black)
+                cards.animation(.default, value: game.cards).padding()
+                HStack{
+                    newGameButton.padding(.leading)
+                    Spacer()
+                    Group {
+                        threeMoreButton
+                        cheatButton.padding(.trailing)
+                    }.disabled(game.isGameOver)
+                }
             }
-        }
+        }.background(Color.white)
     }
     
     
@@ -44,12 +48,10 @@ struct SetView: View {
             function()
         }, label: {
             Text(name)
-                .foregroundStyle(.white)
-                .font(.system(size: 18))
+                .foregroundStyle(.white)    
                 .padding(9)
                 .background {
                     RoundedRectangle(cornerRadius: 25.0)
-                        .foregroundStyle(.blue)
                 }
         })
     }

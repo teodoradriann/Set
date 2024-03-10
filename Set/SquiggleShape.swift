@@ -47,7 +47,6 @@ struct SquiggleShape: Shape, InsettableShape {
         let scale: CGFloat = rect.width / pathRect.width
         let transform = CGAffineTransform(scaleX: scale, y: scale)
         path = path.applying(transform)
-        //path.addArc(center: CGPoint(x: rect.midX, y: rect.midY), radius: rect.width / 2 - insetAmount, startAngle: modifiedStart, endAngle: modifiedEnd, clockwise: !clockwise)
         
         return path
             .offsetBy(dx: rect.minX - path.boundingRect.minX, dy: rect.midY - path.boundingRect.midY)

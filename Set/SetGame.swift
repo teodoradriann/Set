@@ -13,7 +13,6 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable, So
     private(set) var gameOver = false
     private(set) var numberOfTotalCards = 81
     private(set) var dealtCards = 12
-    //private(set) var dealtCards: Int = 0
 
     
     init(createCardContent: (Int) -> Card.CardContent) {
@@ -22,11 +21,12 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable, So
             let content = createCardContent(i)
             cards.append(Card(id: i, symbol: content))
         }
+        shuffle()
     }
     
     mutating func addThreeMore(createCardContent: (Int) -> Card.CardContent){
         if dealtCards >= numberOfTotalCards {
-            return
+            gameOver = true
         } else {
             for i in dealtCards..<dealtCards + 3 {
                 let content = createCardContent(i)
