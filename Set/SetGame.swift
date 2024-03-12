@@ -156,7 +156,6 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
                         score -= 5
                         for chosenCard in chosenCards {
                             if let index = cards.firstIndex(where: { $0.id == chosenCard.id }) {
-                                print(cards[index])
                                 cards[index].touched = false
                                 cards[index].isMatched = false
                                 cards[index].isNotMatched = true
@@ -202,7 +201,6 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         // i'm checking if a set is on the table and if it is, i'm appending the first 2 cards to the chosenCards
         // array and i mark them as matched
         if let existingSet = setOnTable(in: cards) {
-            print(existingSet)
             score -= 25
             
             chosenCards.append(existingSet[0])
