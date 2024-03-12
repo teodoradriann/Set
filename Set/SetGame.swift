@@ -21,20 +21,24 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     
     
     init(createCardContent: (Int) -> Card.CardContent) {
+        // initialing the 3 arrays i'm using
         cards = []
         chosenCards = []
         unplayedCards = []
         
+        // i'm appending 12 cards initially in the array which is on the table
         for i in 0..<dealtCards {
             let content = createCardContent(i)
             cards.append(Card(id: i, symbol: content))
         }
         
+        // and the rest i'm appening to the unplayedCards array
         for i in dealtCards..<numberOfTotalCards {
             let content = createCardContent(i)
             unplayedCards.append(Card(id: i, symbol: content))
         }
         
+        // shuffle for the effect :)
         shuffle()
     }
     
@@ -46,6 +50,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
             return false
         }
         
+        // 4 variables conforming to the rules of Set
         let colorsSet = Set(cards.map({ $0.symbol.color }))
         let shapesSet = Set(cards.map({ $0.symbol.shape }))
         let numberOfSymbolsSet = Set(cards.map({ $0.symbol.numberOfSymbols }))
@@ -58,11 +63,12 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     }
     
     func setOnTable(in cards: [Card]) -> [Card]? {
-        
+        // if there are no cards on table then the game is done
         if cards.isEmpty{
             return nil
         }
         
+        // i'm searching for the first possible match
         let numberOfCards = cards.count
         for i in 0..<numberOfCards - 2 {
             for j in (i + 1)..<numberOfCards - 1 {
@@ -80,10 +86,11 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         if dealtCards >= numberOfTotalCards {
             noRemainingCards = true
         } else {
-            if let existingSet = setOnTable(in: cards){
-                print("existing set was", existingSet)
+            // if a set is already existing on the table, penalize the player with -10 points
+            if let _ = setOnTable(in: cards){
                 score -= 10
             }
+            
             resetisNotMatched()
             dealThreeCards()
         }
@@ -91,6 +98,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     }
     
     mutating func dealThreeCards(){
+        //im appending 3 cards from de unplayed array to the cards that are on the table
         for _ in 1...3 {
             if let newCard = unplayedCards.randomElement(){
                 cards.append(newCard)
@@ -122,7 +130,11 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
                 cards[chosenIndex].touched.toggle()
                 chosenCards.append(cards[chosenIndex])
                 
+                // if in chosenCards are 3 cards it means the user selected 3 cards and i'll check if
+                // the 3 selected cards form a set or not
                 if chosenCards.count == 3 {
+                    //if they do form a set, i'm increasgin his score, marking the cards as matched and removing
+                    // them from the table
                     if (verifySet(chosenCards)) {
                         score += 15
                         
@@ -141,6 +153,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
                         gameOver = checkGameOver(cards)
                         
                     } else {
+                        // im resetting the cards proprties to default
                         score -= 5
                         for chosenCard in chosenCards {
                             if let index = cards.firstIndex(where: { $0.id == chosenCard.id }) {
@@ -151,21 +164,24 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
                             }
                         }
                     }
+                    // emptying the chosenCards array
                     chosenCards.removeAll()
                 }
             } else {
+                // if the player touched an already touched card, i'm removing it from chosenCards array
                 if let indexToRemove = chosenCards.firstIndex(of: cards[chosenIndex]) {
                     chosenCards.remove(at: indexToRemove)
+                    cards[chosenIndex].touched = false
                 } else {
                     print("Card not found in chosenCards.")
                 }
-                cards[chosenIndex].touched = false
             }
         }
     }
     
     mutating func cheat() {
-        
+        // if i have cards in chosenCards, i'm just removing them
+        // to start searching for the best match
         if chosenCards.count > 0 {
             for i in chosenCards {
                 if let index = cards.firstIndex(where: {$0.id == i.id }){
@@ -176,9 +192,11 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         }
         
         resetisNotMatched()
+        // i'm checking if a set is on the table and if it is, i'm appending the first 2 cards to the chosenCards
+        // array and i mark them as matched
         if let existingSet = setOnTable(in: cards) {
             print(existingSet)
-            score -= 30
+            score -= 25
             
             chosenCards.append(existingSet[0])
             chosenCards.append(existingSet[1])
@@ -196,6 +214,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     }
     
     mutating func checkGameOver(_ cards: [Card]) -> Bool {
+        // if there are no remaining cards and no set then the game is over
         if noRemainingCards{
             if setOnTable(in: cards) == nil {
                 return true
@@ -210,8 +229,8 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
             "\(symbol.numberOfSymbols), \(symbol.shape), \(symbol.color), \(symbol.fillPattern), \(id)\n"
         }
         
-        let id: Int
-        let symbol: CardContent
+        let id: Int // id of the card
+        let symbol: CardContent //propetries of the card
         var isMatched = false
         var isNotMatched = false
         var touched = false
