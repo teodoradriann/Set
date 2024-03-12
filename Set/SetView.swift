@@ -16,6 +16,9 @@ struct SetView: View {
                 VStack{
                     Text("SET!").font(.system(size: 50)).foregroundStyle(.black)
                     Text("Score: \(game.score)").bold().foregroundStyle(.black)
+                    if (game.cheatingNotAvailable){
+                        Text("Cheating is not available. Please deselct all the cards and then use Cheat!").foregroundStyle(.black).multilineTextAlignment(.center).font(.subheadline).padding()
+                    }
                     cards.animation(.default, value: game.cards).padding()
                     HStack{
                         newGameButton.padding(.leading)

@@ -18,6 +18,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     private(set) var numberOfTotalCards = 81
     private(set) var dealtCards = 12
     private(set) var noRemainingCards = false
+    private(set) var cheatingIsNotAvailable = false
     
     
     init(createCardContent: (Int) -> Card.CardContent) {
@@ -169,20 +170,23 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         }
     }
     
-    mutating func cheat(){
-        
-        resetisNotMatched()
-        
-        if let existingSet = setOnTable(in: cards) {
-            print(existingSet)
-            score -= 30
-            
-            chosenCards.append(existingSet[0])
-            chosenCards.append(existingSet[1])
-            
-            for card in existingSet.prefix(2) {
-                if let index = cards.firstIndex(of: card) {
-                    cards[index].isMatched = true
+    mutating func cheat() {
+        if chosenCards.count > 0 {
+            cheatingIsNotAvailable = true
+        } else {
+            cheatingIsNotAvailable = false
+            resetisNotMatched()
+            if let existingSet = setOnTable(in: cards) {
+                print(existingSet)
+                score -= 30
+                
+                chosenCards.append(existingSet[0])
+                chosenCards.append(existingSet[1])
+                
+                for card in existingSet.prefix(2) {
+                    if let index = cards.firstIndex(of: card) {
+                        cards[index].isMatched = true
+                    }
                 }
             }
         }
