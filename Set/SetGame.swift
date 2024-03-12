@@ -56,33 +56,36 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         return true
     }
     
-    func checkRemainingSets(in cards: [Card]) -> Bool {
+    func setOnTable(in cards: [Card]) -> [Card]? {
         
         if cards.isEmpty{
-            return false
+            return nil
         }
-
+        
         let numberOfCards = cards.count
         for i in 0..<numberOfCards - 2 {
             for j in (i + 1)..<numberOfCards - 1 {
                 for k in (j + 1)..<numberOfCards {
                     if (verifySet([cards[i], cards[j], cards[k]])){
-                        return true
+                        return [cards[i], cards[j], cards[k]]
                     }
                 }
             }
         }
-        return false
+        return nil
     }
     
     mutating func addThreeMore(createCardContent: (Int) -> Card.CardContent){
         if dealtCards >= numberOfTotalCards {
             noRemainingCards = true
         } else {
-            if (verifySet(cards)) {
+            
+            if let existingSet = setOnTable(in: cards){
+                print("existing set was", existingSet)
                 score -= 10
             }
             
+            resetisNotMatched()
             var newCards: [Card] = []
             
             for i in dealtCards..<dealtCards + 3 {
@@ -101,41 +104,54 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         dealtCards += 3
     }
     
+    mutating func resetisNotMatched(){
+        if chosenCards.isEmpty {
+            for card in cards {
+                if let index = cards.firstIndex(of: card){
+                    cards[index].isNotMatched = false
+                }
+            }
+        }
+    }
+    
     mutating func choose(_ card: Card){
         if let chosenIndex = cards.firstIndex(where: { $0.id == card.id }){
             
-            if chosenCards.isEmpty {
-                for card in cards {
-                    if let index = cards.firstIndex(of: card){
-                        cards[index].isNotMatched = false
-                    }
-                }
-            }
+            resetisNotMatched()
+            
             
             if !cards[chosenIndex].touched {
+                
                 cards[chosenIndex].touched.toggle()
                 chosenCards.append(cards[chosenIndex])
+                
                 if chosenCards.count == 3 {
                     if (verifySet(chosenCards)) {
                         score += 15
                         
+                        // marking the cards as matched
                         for chosenCard in chosenCards {
                             if let index = cards.firstIndex(of: chosenCard) {
                                 cards[index].isMatched = true
-                                cards.remove(at: index)
-                                if let newCard = unplayedCards.randomElement() {
-                                    cards.append(newCard)
-                                }
                             }
                         }
-                        
+                        // removing all the 3 cards that are matching and appending 3 new ones
+                        cards.removeAll { $0.isMatched }
+                        for _ in 1...3 {
+                            if let newCard = unplayedCards.randomElement(){
+                                cards.append(newCard)
+                            }
+                        }
+                        // checking if there are sets left
                         gameOver = checkGameOver(cards)
                         
                     } else {
                         score -= 5
                         for chosenCard in chosenCards {
-                            if let index = cards.firstIndex(of: chosenCard) {
+                            if let index = cards.firstIndex(where: { $0.id == chosenCard.id }) {
+                                print(cards[index])
                                 cards[index].touched = false
+                                cards[index].isMatched = false
                                 cards[index].isNotMatched = true
                             }
                         }
@@ -153,20 +169,42 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         }
     }
     
+    mutating func cheat(){
+        
+        resetisNotMatched()
+        
+        if let existingSet = setOnTable(in: cards) {
+            print(existingSet)
+            score -= 30
+            
+            chosenCards.append(existingSet[0])
+            chosenCards.append(existingSet[1])
+            
+            for card in existingSet.prefix(2) {
+                if let index = cards.firstIndex(of: card) {
+                    cards[index].isMatched = true
+                }
+            }
+        }
+    }
+    
     mutating func shuffle(){
         cards.shuffle()
     }
     
     mutating func checkGameOver(_ cards: [Card]) -> Bool {
-        if checkRemainingSets(in: cards){
-            return false
+        if noRemainingCards{
+            if setOnTable(in: cards) == nil {
+                return true
+            }
         }
-        return true
+        return false
     }
     
     struct Card: Equatable, Identifiable, CustomStringConvertible {
+        
         var description: String {
-            "\(id), \(symbol.shape), \(symbol.color), \(symbol.fillPattern)\n"
+            "\(id), \(symbol.shape), \(symbol.color), \(symbol.fillPattern), \(symbol.numberOfSymbols)\n"
         }
         
         let id: Int

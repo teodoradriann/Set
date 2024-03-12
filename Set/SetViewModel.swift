@@ -13,9 +13,6 @@ class SetViewModel: ObservableObject {
     
     static var cardContent: [Card.CardContent] = {
         var content: [Card.CardContent] = []
-//        content.append(Card.CardContent(numberOfSymbols: 2, color: .pink, shape: .rectangle, fillPattern: .empty))
-//        content.append(Card.CardContent(numberOfSymbols: 3, color: .green, shape: .diamond, fillPattern: .empty))
-//        content.append(Card.CardContent(numberOfSymbols: 2, color: .pink, shape: .rectangle, fillPattern: .filled))
         for numberOfSymbols in 1...3 {
             for color in ContentColor.allCases {
                 for shape in ContentShape.allCases {
@@ -72,7 +69,7 @@ class SetViewModel: ObservableObject {
     }
     
     func cheat(){
-        
+        model.cheat()
     }
     
     func choose(_ card: Card){

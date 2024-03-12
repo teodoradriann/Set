@@ -30,7 +30,7 @@ struct SetView: View {
             } else {
                 VStack{
                     Spacer()
-                    Text("GAME OVER!").font(.largeTitle).foregroundStyle(.black).padding()
+                    Text("GAME OVER!").font(.largeTitle).foregroundStyle(.black)
                     Text("Your final score was: \(game.score)").foregroundStyle(.black)
                     Spacer()
                     newGameButton.padding(.bottom).foregroundStyle(.black)

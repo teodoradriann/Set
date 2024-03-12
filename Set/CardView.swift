@@ -26,7 +26,7 @@ struct CardView: View {
             }
             if card.isMatched {
                 base.strokeBorder(lineWidth: 2)
-                    .background(base.fill(.mint)).opacity(0.5)
+                    .background(base.fill(.mint))
             }
             VStack{
                 ForEach(0..<card.symbol.numberOfSymbols, id: \.self) { _ in
