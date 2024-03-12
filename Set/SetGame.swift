@@ -171,22 +171,27 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     }
     
     mutating func cheat() {
+        
         if chosenCards.count > 0 {
-            cheatingIsNotAvailable = true
-        } else {
-            cheatingIsNotAvailable = false
-            resetisNotMatched()
-            if let existingSet = setOnTable(in: cards) {
-                print(existingSet)
-                score -= 30
-                
-                chosenCards.append(existingSet[0])
-                chosenCards.append(existingSet[1])
-                
-                for card in existingSet.prefix(2) {
-                    if let index = cards.firstIndex(of: card) {
-                        cards[index].isMatched = true
-                    }
+            for i in chosenCards {
+                if let index = cards.firstIndex(where: {$0.id == i.id }){
+                    cards[index].touched = false
+                }
+            }
+            chosenCards.removeAll()
+        }
+        
+        resetisNotMatched()
+        if let existingSet = setOnTable(in: cards) {
+            print(existingSet)
+            score -= 30
+            
+            chosenCards.append(existingSet[0])
+            chosenCards.append(existingSet[1])
+            
+            for card in existingSet.prefix(2) {
+                if let index = cards.firstIndex(of: card) {
+                    cards[index].isMatched = true
                 }
             }
         }
