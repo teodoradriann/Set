@@ -57,9 +57,7 @@ class SetViewModel: ObservableObject {
         model.noRemainingCards
     }
     
-    var cheatingNotAvailable: Bool {
-        model.cheatingIsNotAvailable
-    }
+    
     // MARK: - Intents
     func newGame() {
         SetViewModel.cardContent.shuffle()

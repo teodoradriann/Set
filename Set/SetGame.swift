@@ -34,6 +34,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
             let content = createCardContent(i)
             unplayedCards.append(Card(id: i, symbol: content))
         }
+        
         shuffle()
     }
     
@@ -79,29 +80,25 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         if dealtCards >= numberOfTotalCards {
             noRemainingCards = true
         } else {
-            
             if let existingSet = setOnTable(in: cards){
                 print("existing set was", existingSet)
                 score -= 10
             }
-            
             resetisNotMatched()
-            var newCards: [Card] = []
-            
-            for i in dealtCards..<dealtCards + 3 {
-                let content = createCardContent(i)
-                let newCard = Card(id: i, symbol: content)
+            dealThreeCards()
+        }
+        dealtCards += 3
+    }
+    
+    mutating func dealThreeCards(){
+        for _ in 1...3 {
+            if let newCard = unplayedCards.randomElement(){
                 cards.append(newCard)
-                newCards.append(newCard)
-            }
-            
-            for newCard in newCards {
-                if let indexToRemove = unplayedCards.firstIndex(of: newCard){
-                    unplayedCards.remove(at: indexToRemove)
+                if let index = unplayedCards.firstIndex(of: newCard){
+                    unplayedCards.remove(at: index)
                 }
             }
         }
-        dealtCards += 3
     }
     
     mutating func resetisNotMatched(){
@@ -135,13 +132,11 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
                                 cards[index].isMatched = true
                             }
                         }
+                        
                         // removing all the 3 cards that are matching and appending 3 new ones
                         cards.removeAll { $0.isMatched }
-                        for _ in 1...3 {
-                            if let newCard = unplayedCards.randomElement(){
-                                cards.append(newCard)
-                            }
-                        }
+                        dealThreeCards()
+                        
                         // checking if there are sets left
                         gameOver = checkGameOver(cards)
                         
@@ -212,7 +207,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     struct Card: Equatable, Identifiable, CustomStringConvertible {
         
         var description: String {
-            "\(id), \(symbol.shape), \(symbol.color), \(symbol.fillPattern), \(symbol.numberOfSymbols)\n"
+            "\(symbol.numberOfSymbols), \(symbol.shape), \(symbol.color), \(symbol.fillPattern), \(id)\n"
         }
         
         let id: Int

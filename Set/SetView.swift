@@ -44,7 +44,7 @@ struct SetView: View {
     private var cards: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 80), spacing: 0)], spacing: 0) {
-                ForEach(game.cards) { card in
+                ForEach(game.cards, id: \.id) { card in
                     VStack{
                         CardView(card)
                             .aspectRatio(2/3, contentMode: .fit)
