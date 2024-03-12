@@ -18,8 +18,8 @@ struct CardView: View {
     var body: some View {
         ZStack{
             base.strokeBorder(lineWidth: 2)
-                .background(card.touched ? base.fill(.orange) : base.fill(.white))
-                .foregroundStyle(card.touched ? .orange : .black)
+                .background(card.touched && !card.isMatched ? base.fill(.orange) : base.fill(.white))
+                .foregroundStyle(card.touched && !card.isMatched ? .orange : .black)
             if card.isNotMatched{
                 base.strokeBorder(lineWidth: 2)
                     .background(base.fill(.gray)).opacity(0.5)

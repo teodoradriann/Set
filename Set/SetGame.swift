@@ -122,9 +122,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     
     mutating func choose(_ card: Card){
         if let chosenIndex = cards.firstIndex(where: { $0.id == card.id }){
-            
             resetisNotMatched()
-            
             
             if !cards[chosenIndex].touched {
                 
@@ -169,12 +167,16 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
                     chosenCards.removeAll()
                 }
             } else {
-                // if the player touched an already touched card, i'm removing it from chosenCards array
-                if let indexToRemove = chosenCards.firstIndex(of: cards[chosenIndex]) {
-                    chosenCards.remove(at: indexToRemove)
-                    cards[chosenIndex].touched = false
-                } else {
-                    print("Card not found in chosenCards.")
+                // untapping the cards
+                for i in chosenCards {
+                    if card.id == i.id {
+                        chosenCards.removeAll { $0.id == card.id }
+                        if let index = cards.firstIndex(where: {$0.id == card.id}) {
+                            cards[index].touched = false
+                            cards[index].isMatched = false
+                            cards[index].isNotMatched = false
+                        }
+                    }
                 }
             }
         }
@@ -209,6 +211,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
             for card in existingSet.prefix(2) {
                 if let index = cards.firstIndex(of: card) {
                     cards[index].isMatched = true
+                    cards[index].touched = true
                 }
             }
         } else {
