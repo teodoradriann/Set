@@ -18,7 +18,6 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     private(set) var numberOfTotalCards = 81
     private(set) var dealtCards = 12
     private(set) var noRemainingCards = false
-    private(set) var cheatingIsNotAvailable = false
     
     
     init(createCardContent: (Int) -> Card.CardContent) {
