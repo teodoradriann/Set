@@ -16,6 +16,14 @@ struct SetView: View {
                 VStack{
                     Text("SET!").font(.system(size: 50)).foregroundStyle(.black)
                     Text("Score: \(game.score)").bold().foregroundStyle(.black)
+                    Text("No sets can be made. I'm dealing 3 cards.\nPress on this message to dismiss it.")
+                        .font(.footnote)
+                        .foregroundStyle(.black)
+                        .opacity(game.noSetsFoundByCheat ? 1 : 0)
+                        .multilineTextAlignment(.center)
+                        .onTapGesture {
+                        game.dismissMessage()
+                    }
                     cards.animation(.default, value: game.cards).padding()
                     HStack{
                         newGameButton.padding(.leading)

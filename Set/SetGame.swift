@@ -18,6 +18,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     private(set) var numberOfTotalCards = 81
     private(set) var dealtCards = 12
     private(set) var noRemainingCards = false
+    private(set) var noSetsFoundByCheat = false
     
     
     init(createCardContent: (Int) -> Card.CardContent) {
@@ -179,6 +180,10 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         }
     }
     
+    mutating func dismissMessage() {
+        noSetsFoundByCheat = false
+    }
+    
     mutating func cheat() {
         // if i have cards in chosenCards, i'm just removing them
         // to start searching for the best match
@@ -206,6 +211,9 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
                     cards[index].isMatched = true
                 }
             }
+        } else {
+            noSetsFoundByCheat = true
+            dealThreeCards()
         }
     }
     

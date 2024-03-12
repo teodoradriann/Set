@@ -57,7 +57,9 @@ class SetViewModel: ObservableObject {
         model.noRemainingCards
     }
     
-    
+    var noSetsFoundByCheat: Bool {
+        model.noSetsFoundByCheat
+    }
     // MARK: - Intents
     func newGame() {
         SetViewModel.cardContent.shuffle()
@@ -78,6 +80,9 @@ class SetViewModel: ObservableObject {
         model.choose(card)
     }
     
+    func dismissMessage(){
+        model.dismissMessage()
+    }
     
     func shuffle() {
         model.shuffle()
