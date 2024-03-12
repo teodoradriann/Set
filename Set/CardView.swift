@@ -17,7 +17,17 @@ struct CardView: View {
     
     var body: some View {
         ZStack{
-            base.strokeBorder(lineWidth: 2).background(base.fill(.white)).foregroundStyle(.black)
+            base.strokeBorder(lineWidth: 2)
+                .background(card.touched ? base.fill(.orange) : base.fill(.white))
+                .foregroundStyle(card.touched ? .orange : .black)
+            if card.isNotMatched{
+                base.strokeBorder(lineWidth: 2)
+                    .background(base.fill(.gray)).opacity(0.5)
+            }
+            if card.isMatched {
+                base.strokeBorder(lineWidth: 2)
+                    .background(base.fill(.mint)).opacity(0.5)
+            }
             VStack{
                 ForEach(0..<card.symbol.numberOfSymbols, id: \.self) { _ in
                     addShape(for: card)
@@ -59,8 +69,7 @@ struct CardView: View {
         Text("SET").font(.largeTitle).monospaced()
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 120), spacing: 0)], spacing: 0) {
             ForEach(0..<12) { _ in
-                CardView(SetViewModel.Card(id: 1, symbol: SetGame<SetViewModel.ContentShape, SetViewModel.ContentPattern, SetViewModel.ContentColor>.Card.CardContent(numberOfSymbols: 3, color: .green, shape: .diamond, fillPattern: .empty)))
-            }
+                CardView(SetViewModel.Card(id: 1, symbol: SetGame<SetViewModel.ContentShape, SetViewModel.ContentPattern, SetViewModel.ContentColor>.Card.CardContent(numberOfSymbols: 3, color: .green, shape: .diamond, fillPattern: .empty)))            }
         }.foregroundStyle(.red)
     }
 }

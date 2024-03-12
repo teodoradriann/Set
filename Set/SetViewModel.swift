@@ -13,6 +13,9 @@ class SetViewModel: ObservableObject {
     
     static var cardContent: [Card.CardContent] = {
         var content: [Card.CardContent] = []
+//        content.append(Card.CardContent(numberOfSymbols: 2, color: .pink, shape: .rectangle, fillPattern: .empty))
+//        content.append(Card.CardContent(numberOfSymbols: 3, color: .green, shape: .diamond, fillPattern: .empty))
+//        content.append(Card.CardContent(numberOfSymbols: 2, color: .pink, shape: .rectangle, fillPattern: .filled))
         for numberOfSymbols in 1...3 {
             for color in ContentColor.allCases {
                 for shape in ContentShape.allCases {
@@ -52,6 +55,10 @@ class SetViewModel: ObservableObject {
     var isGameOver: Bool {
         model.gameOver
     }
+    
+    var noRemainingCards: Bool {
+        model.noRemainingCards
+    }
     // MARK: - Intents
     func newGame() {
         SetViewModel.cardContent.shuffle()
@@ -67,6 +74,11 @@ class SetViewModel: ObservableObject {
     func cheat(){
         
     }
+    
+    func choose(_ card: Card){
+        model.choose(card)
+    }
+    
     
     func shuffle() {
         model.shuffle()

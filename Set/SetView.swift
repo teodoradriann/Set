@@ -12,20 +12,32 @@ struct SetView: View {
     
     var body: some View {
         VStack{
-            VStack {
-                Text("SET!").font(.system(size: 50)).monospaced().foregroundStyle(.black)
-                Text("Score: \(game.score)").monospaced().bold().foregroundStyle(.black)
-                cards.animation(.default, value: game.cards).padding()
-                HStack{
-                    newGameButton.padding(.leading)
+            if !game.isGameOver {
+                VStack{
+                    Text("SET!").font(.system(size: 50)).foregroundStyle(.black)
+                    Text("Score: \(game.score)").bold().foregroundStyle(.black)
+                    cards.animation(.default, value: game.cards).padding()
+                    HStack{
+                        newGameButton.padding(.leading)
+                        Spacer()
+                        Group {
+                            threeMoreButton.disabled(game.noRemainingCards)
+                            cheatButton
+                                .padding(.trailing)
+                        }
+                    }
+                }.monospaced()
+            } else {
+                VStack{
                     Spacer()
-                    Group {
-                        threeMoreButton
-                        cheatButton.padding(.trailing)
-                    }.disabled(game.isGameOver)
-                }
+                    Text("GAME OVER!").font(.largeTitle).foregroundStyle(.black).padding()
+                    Text("Your final score was: \(game.score)").foregroundStyle(.black)
+                    Spacer()
+                    newGameButton.padding(.bottom).foregroundStyle(.black)
+                }.monospaced().padding(75)
             }
         }.background(Color.white)
+        
     }
     
     
@@ -36,8 +48,10 @@ struct SetView: View {
                     VStack{
                         CardView(card)
                             .aspectRatio(2/3, contentMode: .fit)
+                            .onTapGesture {
+                                game.choose(card)
+                            }
                     }
-                    
                 }
             }
         }
@@ -48,7 +62,7 @@ struct SetView: View {
             function()
         }, label: {
             Text(name)
-                .foregroundStyle(.white)    
+                .foregroundStyle(.white)
                 .padding(9)
                 .background {
                     RoundedRectangle(cornerRadius: 25.0)
