@@ -48,8 +48,9 @@ struct SetView: View {
                 .matchedGeometryEffect(id: card.id, in: dealing)
                 .matchedGeometryEffect(id: card.id, in: discarding)
                 .transition(.asymmetric(insertion: .identity, removal: .identity))
+                .shadow(color: Color.gray.opacity(0.5), radius: 3, x: 1, y: 2)
                 .onTapGesture {
-                    withAnimation {
+                    withAnimation(.bouncy(duration: 1)) {
                         game.choose(card)
                     }
                 }
@@ -73,10 +74,6 @@ struct SetView: View {
     @Namespace private var discarding
     
     @State private var dealt = Set<Card.ID>()
-    
-//    private func isDealt(_ card: Card) -> Bool {
-//        dealt.contains(card.id)
-//    }
     
     private var undealtCards: [Card] {
         game.unplayedCards
@@ -102,7 +99,7 @@ struct SetView: View {
                 }
                 delay += 0.25
             }
-            withAnimation(.bouncy(duration: 1)) {
+            withAnimation(.bouncy(duration: 1, extraBounce: 0.1)) {
                 game.addThreeMore()
             }
         }
@@ -116,6 +113,7 @@ struct SetView: View {
                 CardView(card)
                     .matchedGeometryEffect(id: card.id, in: discarding)
                     .transition(.asymmetric(insertion: .identity, removal: .identity))
+                    .shadow(color: Color.gray.opacity(0.5), radius: 3, x: 1, y: 2)
             }
         }.frame(width: 90, height: 90 / aspectRatio)
     }
@@ -129,7 +127,10 @@ struct SetView: View {
     
     private var threeMoreButton: some View{
         basicButton(name: "3 More Cards") {
-            game.addThreeMore()
+            withAnimation(.bouncy(duration: 1)) {
+                game.addThreeMore()
+            }
+            
         }
     }
     
@@ -157,6 +158,7 @@ struct SetView: View {
                 game.dismissMessage()
             }
     }
+    
     
     private var commandCentre: some View {
         HStack{
