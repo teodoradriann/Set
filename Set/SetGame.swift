@@ -47,7 +47,6 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         }
         unplayedCards.shuffle()
         // shuffle for the effect :)
-        shuffle()
     }
     
     
@@ -169,7 +168,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
                             }
                         }
                         
-                        if matchedCards.count > 3 {
+                        if matchedCards.count > 6 {
                             for i in 0...2{
                                 matchedCards.remove(at: i)
                             }
