@@ -29,92 +29,75 @@ class SetViewModel: ObservableObject {
         SetGame() { i in cardContent[i] }
     }
     
-    @Published private var model = createSetGame()
+    @Published private var game = createSetGame()
     
     // MARK: - Vars
     
     var cards: [Card] {
-        return model.cards
+        game.cards
+    }
+    
+    var unplayedCards: [Card] {
+        return game.unplayedCards
+    }
+    
+    var matchedCards: [Card] {
+        game.matchedCards
     }
     
     var numberOfPlayingCards: Int {
-        model.dealtCards
+        game.dealtCards
     }
     
     var numberOfTotalCards: Int {
-        model.numberOfTotalCards
+        game.numberOfTotalCards
     }
     
     var score: Int {
-        model.score
+        game.score
     }
     
     var isGameOver: Bool {
-        model.gameOver
+        game.gameOver
     }
     
     var noRemainingCards: Bool {
-        model.noRemainingCards
+        game.noRemainingCards
     }
     
     var noSetsFoundByCheat: Bool {
-        model.noSetsFoundByCheat
+        game.noSetsFoundByCheat
     }
     // MARK: - Intents
     func newGame() {
         SetViewModel.cardContent.shuffle()
-        model = SetViewModel.createSetGame()
+        game = SetViewModel.createSetGame()
+    }
+    
+    func resetMatchedCards(){
+        game.resetMatchingCards()
     }
     
     func addThreeMore(){
-        model.addThreeMore { index in
+        game.addThreeMore { index in
             SetViewModel.cardContent[index]
         }
     }
     
     func cheat(){
-        model.cheat()
+        game.cheat()
     }
     
     func choose(_ card: Card){
-        model.choose(card)
+        game.choose(card)
     }
     
     func dismissMessage(){
-        model.dismissMessage()
+        game.dismissMessage()
     }
     
     func shuffle() {
-        model.shuffle()
+        game.shuffle()
     }
-    // MARK: - Eums
-    
-    enum ContentShape: CaseIterable {
-        case diamond
-        case squiggle
-        case rectangle
-    }
-    
-    enum ContentPattern: CaseIterable {
-        case empty
-        case hashed
-        case filled
-    }
-    
-    enum ContentColor: CaseIterable {
-        case green
-        case indigo
-        case pink
-        
-        func getColor() -> Color {
-            switch self {
-            case .green:
-                return Color.green
-            case .indigo:
-                return Color.indigo
-            case .pink:
-                return Color.pink
-            }
-        }
-    }
+
 }

@@ -12,6 +12,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     private(set) var cards: [Card] // cards that are on the table rn
     private(set) var chosenCards: [Card] // 3 tapped cards will go here for check
     private(set) var unplayedCards: [Card] // an array wich contains all the cards in the game
+    private(set) var matchedCards: [Card]
     
     private(set) var score = 0
     private(set) var gameOver = false
@@ -26,6 +27,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         cards = []
         chosenCards = []
         unplayedCards = []
+        matchedCards = []
         
         // i'm appending 12 cards initially in the array which is on the table
         for i in 0..<dealtCards {
@@ -36,9 +38,13 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         // and the rest i'm appening to the unplayedCards array
         for i in dealtCards..<numberOfTotalCards {
             let content = createCardContent(i)
-            unplayedCards.append(Card(id: i, symbol: content))
+            let newCard = Card(id: i, symbol: content)
+            unplayedCards.append(newCard)
+            if let index = unplayedCards.firstIndex(of: newCard){
+                unplayedCards[index].facedDown = true
+            }
         }
-        
+        unplayedCards.shuffle()
         // shuffle for the effect :)
         shuffle()
     }
@@ -47,7 +53,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     
     func verifySet(_ cards: [Card]) -> Bool {
         
-        if cards.isEmpty{
+        if cards.isEmpty {
             return false
         }
         
@@ -100,13 +106,17 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     
     mutating func dealThreeCards(){
         //im appending 3 cards from de unplayed array to the cards that are on the table
-        for _ in 1...3 {
-            if let newCard = unplayedCards.randomElement(){
+        for _ in 0..<3 {
+            if let newCard = unplayedCards.first {
                 cards.append(newCard)
-                if let index = unplayedCards.firstIndex(of: newCard){
+                if let index = cards.firstIndex(of: newCard){
+                    cards[index].facedDown = false
+                }
+                if let index = unplayedCards.firstIndex(of: newCard) {
                     unplayedCards.remove(at: index)
                 }
             }
+            
         }
     }
     
@@ -141,12 +151,14 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
                         for chosenCard in chosenCards {
                             if let index = cards.firstIndex(of: chosenCard) {
                                 cards[index].isMatched = true
+                                matchedCards.append(cards[index])
+                                resetMatchingCards()
                             }
                         }
                         
                         // removing all the 3 cards that are matching and appending 3 new ones
                         cards.removeAll { $0.isMatched }
-                        dealThreeCards()
+                        //dealThreeCards()
                         
                         // checking if there are sets left
                         gameOver = checkGameOver(cards)
@@ -183,6 +195,15 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     
     mutating func dismissMessage() {
         noSetsFoundByCheat = false
+    }
+    
+    mutating func resetMatchingCards(){
+        for card in matchedCards {
+            if let index = matchedCards.firstIndex(of: card){
+                matchedCards[index].isMatched = false
+                matchedCards[index].touched = false
+            }
+        }
     }
     
     mutating func cheat() {
@@ -243,6 +264,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         var isMatched = false
         var isNotMatched = false
         var touched = false
+        var facedDown = false
         
         struct CardContent: Equatable {
             let numberOfSymbols: Int

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A41A1D62BA4F1C00065B569 /* GenericContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A41A1D52BA4F1C00065B569 /* GenericContents.swift */; };
 		3A4611392B9D1EC60091626E /* SetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4611382B9D1EC60091626E /* SetApp.swift */; };
 		3A46113B2B9D1EC60091626E /* SetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A46113A2B9D1EC60091626E /* SetView.swift */; };
 		3A46113D2B9D1EC70091626E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A46113C2B9D1EC70091626E /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A41A1D52BA4F1C00065B569 /* GenericContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericContents.swift; sourceTree = "<group>"; };
 		3A4611352B9D1EC60091626E /* Set.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Set.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A4611382B9D1EC60091626E /* SetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetApp.swift; sourceTree = "<group>"; };
 		3A46113A2B9D1EC60091626E /* SetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetView.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 			children = (
 				3A4611382B9D1EC60091626E /* SetApp.swift */,
 				3A46113A2B9D1EC60091626E /* SetView.swift */,
+				3A41A1D52BA4F1C00065B569 /* GenericContents.swift */,
 				3A46114E2B9D269E0091626E /* CardView.swift */,
 				3A4611562B9D3B2D0091626E /* Hash.swift */,
 				3A4611522B9D35F10091626E /* SquiggleShape.swift */,
@@ -166,6 +169,7 @@
 				3A46113B2B9D1EC60091626E /* SetView.swift in Sources */,
 				3A46114B2B9D1FB80091626E /* SetGame.swift in Sources */,
 				3A4611392B9D1EC60091626E /* SetApp.swift in Sources */,
+				3A41A1D62BA4F1C00065B569 /* GenericContents.swift in Sources */,
 				3A46114F2B9D269E0091626E /* CardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
