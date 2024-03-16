@@ -35,20 +35,24 @@ struct SetView: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 80), spacing: 0)], spacing: 0) {
                 ForEach(game.cards, id: \.id) { card in
-                    VStack{
-                        CardView(card)
-                            .aspectRatio(aspectRatio, contentMode: .fit)
-                            .matchedGeometryEffect(id: card.id, in: dealing)
-                            .matchedGeometryEffect(id: card.id, in: discarding)
-                            .transition(.asymmetric(insertion: .identity, removal: .identity))
-                            .onTapGesture {
-                                withAnimation {
-                                    game.choose(card)
-                                }
-                            }
-                    }
+                    returnCardsView(card)
                 }
             }
+        }
+    }
+    
+    func returnCardsView(_ card: SetView.Card) -> some View{
+        VStack{
+            CardView(card)
+                .aspectRatio(aspectRatio, contentMode: .fit)
+                .matchedGeometryEffect(id: card.id, in: dealing)
+                .matchedGeometryEffect(id: card.id, in: discarding)
+                .transition(.asymmetric(insertion: .identity, removal: .identity))
+                .onTapGesture {
+                    withAnimation {
+                        game.choose(card)
+                    }
+                }
         }
     }
     
