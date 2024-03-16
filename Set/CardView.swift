@@ -36,6 +36,7 @@ struct CardView: View {
                 }.padding()
             }.padding(5)
                 .rotationEffect(card.isNotMatched ? .degrees(5) : .zero)
+                .shadow(color: Color.gray.opacity(0.5), radius: 3, x: 1, y: 2)
         } else {
             base.strokeBorder(lineWidth: 2)
                 .foregroundStyle(.black)

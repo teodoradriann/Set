@@ -35,6 +35,7 @@
 		3A4611502B9D28140091626E /* DiamondShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiamondShape.swift; sourceTree = "<group>"; };
 		3A4611522B9D35F10091626E /* SquiggleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquiggleShape.swift; sourceTree = "<group>"; };
 		3A4611562B9D3B2D0091626E /* Hash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hash.swift; sourceTree = "<group>"; };
+		3A4A30A92BA64C4200821288 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +69,7 @@
 		3A4611372B9D1EC60091626E /* Set */ = {
 			isa = PBXGroup;
 			children = (
+				3A4A30A92BA64C4200821288 /* Info.plist */,
 				3A4611382B9D1EC60091626E /* SetApp.swift */,
 				3A46113A2B9D1EC60091626E /* SetView.swift */,
 				3A41A1D52BA4F1C00065B569 /* GenericContents.swift */,
@@ -307,6 +309,7 @@
 				DEVELOPMENT_TEAM = SU9DQBS669;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Set/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -336,6 +339,7 @@
 				DEVELOPMENT_TEAM = SU9DQBS669;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Set/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

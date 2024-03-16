@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & Hashable, SomeColor: Equatable & Hashable, SomePattern: Equatable & Hashable {
     
@@ -151,15 +152,28 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
                         for chosenCard in chosenCards {
                             if let index = cards.firstIndex(of: chosenCard) {
                                 cards[index].isMatched = true
-                                matchedCards.append(cards[index])
                                 resetMatchingCards()
                             }
                         }
                         
                         // removing all the 3 cards that are matching and appending 3 new ones
-                        cards.removeAll { $0.isMatched }
-                        //dealThreeCards()
+                        for card in cards {
+                            if let index = cards.firstIndex(of: card) {
+                                if cards[index].isMatched {
+                                    cards[index].isMatched = false
+                                    cards[index].touched = false
+                                    cards[index].rotationAngle = .degrees(Double.random(in: 1...3))
+                                    matchedCards.append(cards[index])
+                                    cards.remove(at: index)
+                                }
+                            }
+                        }
                         
+                        if matchedCards.count > 3 {
+                            for i in 0...2{
+                                matchedCards.remove(at: i)
+                            }
+                        }
                         // checking if there are sets left
                         gameOver = checkGameOver(cards)
                         
@@ -209,6 +223,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     mutating func cheat() {
         // if i have cards in chosenCards, i'm just removing them
         // to start searching for the best match
+        noSetsFoundByCheat = false
         if chosenCards.count > 0 {
             for i in chosenCards {
                 if let index = cards.firstIndex(where: {$0.id == i.id }){
@@ -245,8 +260,12 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
     
     mutating func checkGameOver(_ cards: [Card]) -> Bool {
         // if there are no remaining cards and no set then the game is over
-        if noRemainingCards{
+        if noRemainingCards {
             if setOnTable(in: cards) == nil {
+                return true
+            }
+        } else {
+            if setOnTable(in: unplayedCards) == nil {
                 return true
             }
         }
@@ -265,6 +284,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         var isNotMatched = false
         var touched = false
         var facedDown = false
+        var rotationAngle : Angle = .zero
         
         struct CardContent: Equatable {
             let numberOfSymbols: Int

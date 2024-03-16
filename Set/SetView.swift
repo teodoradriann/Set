@@ -11,7 +11,6 @@ struct SetView: View {
     @ObservedObject var game: SetViewModel
     typealias Card = SetGame<ContentShape, ContentPattern, ContentColor>.Card
     
-    
     private let aspectRatio: CGFloat = 2/3
     
     var body: some View {
@@ -48,10 +47,10 @@ struct SetView: View {
                 .matchedGeometryEffect(id: card.id, in: dealing)
                 .matchedGeometryEffect(id: card.id, in: discarding)
                 .transition(.asymmetric(insertion: .identity, removal: .identity))
-                .shadow(color: Color.gray.opacity(0.5), radius: 3, x: 1, y: 2)
                 .onTapGesture {
                     withAnimation(.bouncy(duration: 1)) {
                         game.choose(card)
+                        
                     }
                 }
         }
@@ -106,16 +105,35 @@ struct SetView: View {
         
     }
     
+    @State private var rotationAngleApplied = false
+    
     @ViewBuilder
     private var discardPile: some View {
-        ZStack{
-            ForEach(game.matchedCards) { card in
+        ZStack {
+            ForEach(game.matchedCards.indices, id: \.self) { index in
+                let card = game.matchedCards[index]
                 CardView(card)
                     .matchedGeometryEffect(id: card.id, in: discarding)
                     .transition(.asymmetric(insertion: .identity, removal: .identity))
-                    .shadow(color: Color.gray.opacity(0.5), radius: 3, x: 1, y: 2)
+                    .offset(x: CGFloat(index) * 2, y: CGFloat(index) * -2)
+                    .onAppear {
+                        
+                    }
+                    .rotationEffect(game.matchedCards[index].rotationAngle)
+                
             }
-        }.frame(width: 90, height: 90 / aspectRatio)
+        }
+        .frame(width: 90, height: 90 / aspectRatio)
+        
+    }
+    
+    private var rotationAngle: Angle {
+        if !rotationAngleApplied {
+            rotationAngleApplied = true
+            return .degrees(Double.random(in: 1...3))
+        } else {
+            return .degrees(0)
+        }
     }
     
     private var newGameButton: some View {
@@ -184,11 +202,15 @@ struct SetView: View {
     private var gameOverScreen: some View {
         VStack{
             Spacer()
+            HStack{
+                Spacer()
+            }
             Text("GAME OVER!").font(.largeTitle).foregroundStyle(.black)
             Text("Your final score was: \(game.score)").foregroundStyle(.black)
             Spacer()
-            newGameButton.padding(.bottom).foregroundStyle(.black)
-        }.monospaced().padding(75)
+            newGameButton.foregroundStyle(.black)
+        }.monospaced()
+            .background(Color.white)
     }
 }
 
