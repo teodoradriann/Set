@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct SetGame<SomeShape, SomePattern, SomeColor>: Hashable where SomeShape: Equatable & Hashable, SomeColor: Equatable & Hashable, SomePattern: Equatable & Hashable {
+struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & Hashable, SomeColor: Equatable & Hashable, SomePattern: Equatable & Hashable {
     
     private(set) var cards: [Card] // cards that are on the table rn
     private(set) var chosenCards: [Card] // 3 tapped cards will go here for check
@@ -272,11 +272,7 @@ struct SetGame<SomeShape, SomePattern, SomeColor>: Hashable where SomeShape: Equ
         return false
     }
     
-    struct Card: Equatable, Identifiable, CustomStringConvertible, Hashable {
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(id)
-        }
+    struct Card: Equatable, Identifiable, CustomStringConvertible {
         
         var description: String {
             "\(symbol.numberOfSymbols), \(symbol.shape), \(symbol.color), \(symbol.fillPattern), \(id)\n"
