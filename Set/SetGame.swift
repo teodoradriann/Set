@@ -8,12 +8,13 @@
 import Foundation
 import SwiftUI
 
-struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & Hashable, SomeColor: Equatable & Hashable, SomePattern: Equatable & Hashable {
+struct SetGame<SomeShape, SomePattern, SomeColor>: Hashable where SomeShape: Equatable & Hashable, SomeColor: Equatable & Hashable, SomePattern: Equatable & Hashable {
     
     private(set) var cards: [Card] // cards that are on the table rn
     private(set) var chosenCards: [Card] // 3 tapped cards will go here for check
     private(set) var unplayedCards: [Card] // an array wich contains all the cards in the game
     private(set) var matchedCards: [Card]
+    
     
     private(set) var score = 0
     private(set) var gameOver = false
@@ -271,7 +272,11 @@ struct SetGame<SomeShape, SomePattern, SomeColor> where SomeShape: Equatable & H
         return false
     }
     
-    struct Card: Equatable, Identifiable, CustomStringConvertible {
+    struct Card: Equatable, Identifiable, CustomStringConvertible, Hashable {
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
         
         var description: String {
             "\(symbol.numberOfSymbols), \(symbol.shape), \(symbol.color), \(symbol.fillPattern), \(id)\n"

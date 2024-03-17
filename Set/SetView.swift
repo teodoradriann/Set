@@ -36,8 +36,8 @@ struct SetView: View {
         }
     }
     
-    func returnCardsView(_ card: SetView.Card) -> some View{
-            CardView(card)
+    func returnCardsView(_ card: SetView.Card) -> some View {
+        CardView(card)
                 .aspectRatio(aspectRatio, contentMode: .fit)
                 .matchedGeometryEffect(id: card.id, in: dealing)
                 .matchedGeometryEffect(id: card.id, in: discarding)
@@ -67,11 +67,15 @@ struct SetView: View {
     @Namespace private var discarding
     
     @State private var dealt = Set<Card.ID>()
+    @State private var matched = Set<Card.ID>()
     
     private var undealtCards: [Card] {
         game.unplayedCards
     }
     
+    private var matchedCards: [Card] {
+        game.matchedCards
+    }
     
     @ViewBuilder
     private var deck: some View {
@@ -104,21 +108,23 @@ struct SetView: View {
     @ViewBuilder
     private var discardPile: some View {
         ZStack {
-            ForEach(game.matchedCards.indices, id: \.self) { index in
-                let card = game.matchedCards[index]
+            ForEach(matchedCards) { card in
                 CardView(card)
                     .matchedGeometryEffect(id: card.id, in: discarding)
                     .transition(.asymmetric(insertion: .identity, removal: .identity))
-                    .offset(x: CGFloat(index) * 2, y: CGFloat(index) * -2)
-                    .onAppear {
-                        
-                    }
-                    .rotationEffect(game.matchedCards[index].rotationAngle)
-                
+                    .offset(x: CGFloat(indexOfMatchedCard(card)) * 2, y: CGFloat(indexOfMatchedCard(card)) * -2)
+                    .rotationEffect(card.rotationAngle)
             }
         }
         .frame(width: 90, height: 90 / aspectRatio)
         
+    }
+    
+    private func indexOfMatchedCard(_ card: Card) -> Int {
+        if let index = matchedCards.firstIndex(of: card) {
+            return index
+        }
+        return 0
     }
     
     private var rotationAngle: Angle {
