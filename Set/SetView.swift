@@ -31,17 +31,12 @@ struct SetView: View {
     
     
     private var layout: some View {
-        ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 80), spacing: 0)], spacing: 0) {
-                ForEach(game.cards, id: \.id) { card in
-                    returnCardsView(card)
-                }
-            }
+        AspectVGrid(game.cards, aspectRatio: 2/3) { card in
+            returnCardsView(card)
         }
     }
     
     func returnCardsView(_ card: SetView.Card) -> some View{
-        VStack{
             CardView(card)
                 .aspectRatio(aspectRatio, contentMode: .fit)
                 .matchedGeometryEffect(id: card.id, in: dealing)
@@ -53,7 +48,6 @@ struct SetView: View {
                         
                     }
                 }
-        }
     }
     
     func basicButton(name: String, function: @escaping () -> ()) -> some View {
